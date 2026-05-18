@@ -1,4 +1,5 @@
 package com.example.myplayer.SampleLayout
+
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -8,14 +9,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
@@ -35,6 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myplayer.Model.HomeMatch
@@ -47,134 +51,268 @@ fun UpcomingSampleLayout(homeMatch: HomeMatch) {
 
     Card(
         modifier = Modifier
-            .padding(5.dp)
-            .clip(RoundedCornerShape(30.dp)),
-        border = BorderStroke(2.dp, Color.Green)
-    )
-    {
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp, vertical = 4.dp),
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        ),
+        border = BorderStroke(
+            1.dp,
+            Color.White.copy(alpha = 0.10f)
+        )
+    ) {
+
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            Color(0xFF000428),
-                            Color(0xFF004e92)
+                            Color(0xFF101B2E),
+                            Color(0xFF07111F)
                         )
                     )
                 )
         ) {
+
+            Box(
+                modifier = Modifier
+                    .size(145.dp)
+                    .align(Alignment.TopStart)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color(0xFF00C853).copy(alpha = 0.13f),
+                                Color.Transparent
+                            )
+                        )
+                    )
+            )
+
+            Box(
+                modifier = Modifier
+                    .size(145.dp)
+                    .align(Alignment.BottomEnd)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color(0xFFFFB300).copy(alpha = 0.11f),
+                                Color.Transparent
+                            )
+                        )
+                    )
+            )
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(horizontal = 13.dp, vertical = 12.dp)
             ) {
 
-                // 🔹 SERIES NAME
-                Text(
-                    text = homeMatch.seriesName.toString(),
-                    style = TextStyle(
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 18.sp,
-                        color = Color.White,
-                        fontFamily = FontFamily.Monospace
-                    )
-                )
-
-                Spacer(modifier = Modifier.padding(5.dp))
-
-
                 Row(
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    GlideImage(imageModel = {homeMatch.team1Pic},
-                        loading = { CircularProgressIndicator(modifier = Modifier.size(20.dp)) }
-                        , failure = { Image(painter = painterResource(R.drawable.cricket),
-                            contentDescription = null, modifier = Modifier.size(60.dp))
-                        }, modifier = Modifier
-                            .clip(CircleShape)
-                            .size(60.dp)
+                    Text(
+                        text = homeMatch.seriesName.toString(),
+                        style = TextStyle(
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 14.sp,
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
                     )
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(Color(0x1AFFB300))
+                            .padding(horizontal = 9.dp, vertical = 4.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
 
-
-                    CompositionLocalProvider(LocalContentColor provides Color.Green) {
-                        homeMatch.timeMilliSeconds?.let { MatchCountdown(it) }
+                        Text(
+                            text = "Upcoming",
+                            style = TextStyle(
+                                color = Color(0xFFFFD56A),
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.SansSerif
+                            )
+                        )
                     }
-
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-
-                    GlideImage(imageModel = {homeMatch.team2Pic},
-                        loading = { CircularProgressIndicator(modifier = Modifier.size(20.dp)) },
-                        failure = { Image(painter = painterResource(R.drawable.cricket), contentDescription = null,
-                            modifier = Modifier.size(60.dp))
-                        }, modifier = Modifier
-                            .clip(CircleShape)
-                            .size(60.dp)
-                    )
-
-
                 }
 
-                Spacer(modifier = Modifier.padding(top = 12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Top
                 ) {
 
-                    homeMatch.team1?.let {
-                        Text(
-                            text = it,
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                fontFamily = FontFamily.Monospace
-                            ),
-                            modifier = Modifier.width(120.dp)
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
-                        )
-                    }
-
-                    homeMatch.date?.let {
-                        Text(
-                            text = it,
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Yellow,
-                                fontFamily = FontFamily.Monospace
-
-                            ),
-                            modifier = Modifier.padding(top = 70.dp)
-                        )
-                    }
-
-
-                    homeMatch.team2?.let {
-                        Text(
-                            text = it,
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                fontFamily = FontFamily.Monospace
-                            ),
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 40.dp)
+                                .size(54.dp)
+                                .clip(CircleShape)
+                                .background(Color.White.copy(alpha = 0.10f)),
+                            contentAlignment = Alignment.Center
+                        ) {
 
-                        )
+                            GlideImage(
+                                imageModel = { homeMatch.team1Pic },
+                                loading = {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(16.dp),
+                                        color = Color(0xFFFFD56A)
+                                    )
+                                },
+                                failure = {
+                                    Image(
+                                        painter = painterResource(R.drawable.cricket),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(35.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clip(CircleShape)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        homeMatch.team1?.let {
+                            Text(
+                                text = it,
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    fontFamily = FontFamily.SansSerif,
+                                    textAlign = TextAlign.Center,
+                                    lineHeight = 14.sp
+                                ),
+                                maxLines = 2,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
 
+                    Column(
+                        modifier = Modifier
+                            .width(98.dp)
+                            .padding(horizontal = 6.dp, vertical = 2.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color.White.copy(alpha = 0.08f))
+                                .padding(horizontal = 10.dp, vertical = 4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            Text(
+                                text = "STARTS IN",
+                                style = TextStyle(
+                                    fontSize = 9.sp,
+                                    color = Color(0xFF9AA5B5),
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.SansSerif
+                                )
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        CompositionLocalProvider(LocalContentColor provides Color(0xFFFFD56A)) {
+                            homeMatch.timeMilliSeconds?.let {
+                                MatchCountdown(it)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        homeMatch.date?.let {
+                            Text(
+                                text = it,
+                                style = TextStyle(
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color(0xFF9AA5B5),
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = FontFamily.SansSerif,
+                                    lineHeight = 12.sp
+                                ),
+                                maxLines = 2
+                            )
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Box(
+                            modifier = Modifier
+                                .size(54.dp)
+                                .clip(CircleShape)
+                                .background(Color.White.copy(alpha = 0.10f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            GlideImage(
+                                imageModel = { homeMatch.team2Pic },
+                                loading = {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(16.dp),
+                                        color = Color(0xFFFFD56A)
+                                    )
+                                },
+                                failure = {
+                                    Image(
+                                        painter = painterResource(R.drawable.cricket),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(35.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clip(CircleShape)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        homeMatch.team2?.let {
+                            Text(
+                                text = it,
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    fontFamily = FontFamily.SansSerif,
+                                    textAlign = TextAlign.Center,
+                                    lineHeight = 14.sp
+                                ),
+                                maxLines = 2,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -188,7 +326,7 @@ fun MatchCountdown(matchTime: Long) {
 
     var remainingTime by remember { mutableStateOf(matchTime - System.currentTimeMillis()) }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = matchTime) {
         while (remainingTime > 0) {
             delay(1000L)
             remainingTime = matchTime - System.currentTimeMillis()
@@ -200,12 +338,18 @@ fun MatchCountdown(matchTime: Long) {
     val seconds = ((remainingTime / 1000) % 60).toInt()
 
     Text(
-        text = if (remainingTime > 0)
+        text = if (remainingTime > 0) {
             String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        else
-            "Match Started!",
-        style = TextStyle(fontSize = 25.sp, fontWeight = FontWeight.Bold, color = LocalContentColor.current)
+        } else {
+            "Started"
+        },
+        style = TextStyle(
+            fontSize = 14.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = LocalContentColor.current,
+            fontFamily = FontFamily.SansSerif,
+            textAlign = TextAlign.Center
+        ),
+        maxLines = 1
     )
-
-
 }

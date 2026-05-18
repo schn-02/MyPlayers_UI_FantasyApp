@@ -2,12 +2,18 @@ package com.example.myplayer.Retrofit
 
 import com.example.myplayer.Model.HomeMatch
 import com.example.myplayer.Model.MatchSquadModel
+import com.example.myplayer.Model.SaveTeamRequest
+import com.example.myplayer.Model.SaveTeamResponse
+import com.example.myplayer.Model.SavedTeamDetailResponse
+import com.example.myplayer.Model.SavedTeamListResponse
 import com.example.myplayer.Model.SigninModel
 import com.example.myplayer.Model.UserDetialsModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RetrofitInterface
@@ -41,6 +47,20 @@ interface RetrofitInterface
     @GET("/api/FetchAllRounderSquad")
     suspend fun getAllRounderMatchSquad(@Query("matchID") matchID: String): List<MatchSquadModel>
 
+
+    @POST("/api/saved-teams")
+    suspend fun saveTeam(
+        @Body request: SaveTeamRequest
+    ): Response<SaveTeamResponse>
+
+
+    @GET("/api/saved-teams")
+    suspend fun getMySavedTeams(): Response<List<SavedTeamListResponse>>
+
+    @GET("/api/saved-teams/{teamId}")
+    suspend fun getSavedTeamDetails(
+        @Path("teamId") teamId: Long
+    ): Response<SavedTeamDetailResponse>
 
 
 
